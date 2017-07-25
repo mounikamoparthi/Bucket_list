@@ -1,0 +1,34 @@
+<a [routerLink] = "['/dashboard']"> BucketList</a> | <a [routerLink]="['/create']">Home</a>|
+ <a [routerLink]="['/']">LogOff</a>
+<router-outlet></router-outlet>
+
+
+<h3 *ngIf="current_user"> Hello, {{current_user.name}}</h3>
+
+<form (ngSubmit) = addBucket() #createBucket = "ngForm">
+  <div class= "col-sm-5">
+    Title:<br>
+    <input type = "text" name = "title" [(ngModel)] = "newBucket.title" #title = "ngModel" required minlength = "5"><br>
+  </div>
+  <div class="col-sm-6 error" *ngIf='!title.valid '> Must be atleast 5 characters</div>
+  <br>
+  Description:<br>
+  <textarea  class="form-control" rows = "3" cols = '40' name ="description" [(ngModel)] = "newBucket.description" #description = "ngModel" required minlength = '10'></textarea><br>
+
+  <div class="col-sm-6 error" *ngIf='!description.valid'> Must be atleast 10 characters</div>
+
+  <input type = "submit" value = "Add to List" [(disabled)] = "!createBucket.form.valid"><br>
+</form>
+
+
+  <h4 *ngFor= "let b of currentUserBuckets">
+    <input type = "checkbox" name = "list" value = "bucket">{{ b.description }}  {{ b.title }}   {{b.createdAt | date: "medium"}}>
+
+  </h4>
+
+<h2> List of Other Users </h2>
+
+<h4 *ngFor= "let b of list_users">
+    <a href = "/dashboard"> {{ b.name }} </a>
+
+</h4>
